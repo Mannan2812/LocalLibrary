@@ -5,9 +5,9 @@ var BookInstance = require('../models/bookinstance');
 var async = require('async');
 const {body,validationResult} = require('express-validator/check')
 const {sanitize} = require('express-validator/filter')
+var debug = require('debug')('Book')
 
-
-exports.index = function(req, res) {
+exports.index = function(req, res,next) {
     async.parallel({
       book_count:function (callback){
         Book.countDocuments({},callback);
@@ -25,7 +25,11 @@ exports.index = function(req, res) {
         Genre.countDocuments({},callback)
       },
     },function (err,results) {
-      res.render('index', { title: 'Local Library Home', error: err, data: results });
+      if(err) {
+        debug('Index error: '+err)
+        return next(err)
+      }
+      res.render('index', { title: 'Local Library Home', data: results });
       })
   };
 
