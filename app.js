@@ -4,7 +4,8 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var mongoose = require('mongoose')
-var mongoDB = "mongodb+srv://mannan:jai12345@cluster0-idjzd.mongodb.net/local_library?retryWrites=true&w=majority"
+var dev_db_url = "mongodb+srv://mannan:jai12345@cluster0-idjzd.mongodb.net/local_library?retryWrites=true&w=majority"
+var mongoDB = process.env.MONGODB_URI || dev_db_url
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var catalogRouter = require('./routes/catalog');
